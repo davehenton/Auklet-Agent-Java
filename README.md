@@ -4,7 +4,17 @@
 
 **Implemented enhancements:**
 
+- APM-1673: Replace simple-json with JSON-Java [#31](https://github.com/aukletio/Auklet-Agent-Java/pull/31) ([shogun656](https://github.com/shogun656))
 - APM-1645: Add custom logging of handled exception events  [#25](https://github.com/aukletio/Auklet-Agent-Java/pull/25) ([npalaska](https://github.com/npalaska))
+
+**Fixed bugs:**
+
+- APM-1649: Add slf4j logging in Auklet agent code [#29](https://github.com/aukletio/Auklet-Agent-Java/pull/29) ([npalaska](https://github.com/npalaska))
+- send the complete exception message [#28](https://github.com/aukletio/Auklet-Agent-Java/pull/28) ([npalaska](https://github.com/npalaska))
+
+**DevOps changes:**
+
+- Update instructions for bug reports [#34](https://github.com/aukletio/Auklet-Agent-Java/pull/34) ([rjenkinsjr](https://github.com/rjenkinsjr))
 
 ## [0.2.1](https://github.com/aukletio/Auklet-Agent-Java/tree/0.2.1)
 
