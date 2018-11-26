@@ -30,9 +30,11 @@ repositories {
 
 dependencies {
     compile "org.apache.httpcomponents:httpclient:4.5.5"
-    compile "com.googlecode.json-simple:json-simple:1.1.1"
+    compile 'org.json:json:20180813'
     compile "org.msgpack:jackson-dataformat-msgpack:0.8.16"
     compile "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0"
+    compile "org.slf4j:slf4j-api:1.7.25"
+    testCompile "org.slf4j:slf4j-simple:1.7.25"
 }
 
 test {

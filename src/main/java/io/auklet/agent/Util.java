@@ -1,33 +1,38 @@
 package io.auklet.agent;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.http.HttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public final class Util {
 
+    static private Logger logger = LoggerFactory.getLogger(Util.class);
+
     private Util(){ }
 
     protected static String getMacAddressHash() {
-        InetAddress ip;
         String machash = "";
         NetworkInterface networkinterface = null;
         try {
             Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
-            for (; n.hasMoreElements();)
-            {
+            for (; n.hasMoreElements();) {
                 NetworkInterface e = n.nextElement();
                 if (!e.isLoopback()) { // Check against network interface "127.0.0.1"
                     networkinterface = e;
                 }
-                if(e.getHardwareAddress() != null) {
+                if (e.getHardwareAddress() != null) {
                     break;
                 }
             }
+            logger.debug("Network Interface: {}", networkinterface);
 
             byte[] mac = networkinterface.getHardwareAddress();
 
@@ -41,17 +46,13 @@ public final class Util {
             byte[] macHashByte = md.digest(macBytes);
             machash = Hex.encodeHexString(macHashByte);
 
-
         } catch (SocketException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
-
-            e.printStackTrace();
-
+            logger.error("Error while computing the MAC address hash", e);
         }
         return machash;
-
     }
 
-    protected static String getIpAddress(){
+    protected static String getIpAddress() {
         String ipAddr = "";
         try {
             URL whatismyip = new URL("http://checkip.amazonaws.com");
@@ -59,27 +60,35 @@ public final class Util {
                     whatismyip.openStream()));
 
             ipAddr = in.readLine(); //you get the IP as a String
-
         } catch (IOException e) {
-            e.printStackTrace();
-
+            logger.error("Error while fetching the IP address", e);
         }
         return ipAddr;
     }
 
     protected static String createCustomFolder(String sysProperty) {
-
         String path = System.getProperty(sysProperty) + File.separator + "aukletFiles";
         File newfile = new File(path);
-        if (newfile.exists()){
-            System.out.println("folder already exists");
-        } else if (newfile.mkdir()){
-            System.out.println("folder created");
+        if (newfile.exists()) {
+            logger.debug("Folder already exists");
+        } else if (newfile.mkdir()) {
+            logger.debug("Folder created");
         } else {
-            System.out.println("folder was not created for " + sysProperty);
+            logger.debug("Folder was not created for {}", sysProperty);
             return null;
         }
 
         return path;
+    }
+
+    protected static String readContents(HttpResponse response) {
+        String text;
+        try (Scanner scanner = new Scanner(response.getEntity().getContent(), StandardCharsets.UTF_8.name())) {
+            text = scanner.useDelimiter("\\A").next();
+        } catch (Exception e) {
+            logger.error("Error while parsing HTTP response body", e);
+            return null;
+        }
+        return text;
     }
 }
