@@ -3,9 +3,6 @@ plugins:
   sonar-java:
     enabled: true
     config:
-      minimum_severity: info
-      sonar.java.source: 7.0
-      tests_patterns:
-        - src/test/**
+      sonar.java.source: 7
 exclude_paths:
 - .devops/
