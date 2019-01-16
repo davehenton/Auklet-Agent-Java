@@ -4,7 +4,7 @@ plugins:
     enabled: true
     config:
       minimum_severity: info
-      sonar.java.source: 7
+      sonar.java.source: 7.0
       tests_patterns:
         - src/test/**
 exclude_paths:
