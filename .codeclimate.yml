@@ -1,5 +1,7 @@
 ---
 engines:
+  pmd: 
+    enabled: true
   sonar-java:
     enabled: false
     config:
@@ -9,5 +11,3 @@ engines:
         - src/test/**
 exclude_paths:
 - .devops/
-  pmd: 
-    enabled: true
