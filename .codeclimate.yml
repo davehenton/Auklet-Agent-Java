@@ -1,7 +1,7 @@
 ---
 engines:
   sonar-java:
-    enabled: true
+    enabled: false
     config:
       minimum_severity: info
       sonar.java.source: 8
@@ -9,3 +9,5 @@ engines:
         - src/test/**
 exclude_paths:
 - .devops/
+  pmd: 
+    enabled: true
